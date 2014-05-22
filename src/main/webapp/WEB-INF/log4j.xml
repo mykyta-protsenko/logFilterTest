@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+    <!-- Appenders -->
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <layout class="it.openutils.log4j.FilteredPatternLayout">
+            <param name="ConversionPattern" value="%-5p  %c %F(%M:%L) %d{dd.MM.yyyy HH:mm:ss}  %m%n" />
+            <param name="Filter" value="org.apache.catalina" />
+            <param name="Filter" value="org.apache.tomcat" />
+            <param name="Filter" value="org.apache.coyote" />
+            <param name="Filter" value="org.springframework" />
+            <param name="Filter" value="sun.reflect" />
+            <param name="Filter" value="javax.servlet.http" />
+            <param name="ConversionPattern" value="[%d{ISO8601}] %r %-5p [%t] %c - %m%n" />
+        </layout>
+<!--         <layout class="org.apache.log4j.PatternLayout"> -->
+<!--             <param name="ConversionPattern" value="%-6r %-5p [%t] %c - %m%n" /> -->
+<!--         </layout> -->
+    </appender>
+
+    <appender name="LOGFILE" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="${catalina.home}/logs/testFilter.log" />
+        <param name="MaxFileSize" value="50MB" />
+        <param name="MaxBackupIndex" value="3" />
+        <layout class="it.openutils.log4j.FilteredPatternLayout">
+            <param name="ConversionPattern" value="%-5p  %c %F(%M:%L) %d{dd.MM.yyyy HH:mm:ss}  %m%n" />
+            <param name="Filter" value="org.apache.catalina" />
+            <param name="Filter" value="org.apache.tomcat" />
+            <param name="Filter" value="org.apache.coyote" />
+            <param name="Filter" value="org.springframework" />
+            <param name="Filter" value="sun.reflect" />
+            <param name="Filter" value="javax.servlet.http" />
+            <param name="ConversionPattern" value="[%d{ISO8601}] %r %-5p [%t] %c - %m%n" />
+        </layout>
+<!--         <layout class="org.apache.log4j.PatternLayout"> -->
+<!--             <param name="ConversionPattern" value="[%d{ISO8601}] %r %-5p [%t] %c - %m%n" /> -->
+<!--         </layout> -->
+    </appender>
+
+    <appender name="LOGASYNC" class="org.apache.log4j.AsyncAppender">
+        <param name="BufferSize" value="4096" />
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="LOGFILE" />
+    </appender>
+
+    <!-- Loggers -->
+
+    <logger name="com.protsenko">
+        <level value="debug" />
+    </logger>
+
+    <logger name="org.springframework">
+      <level value="warn" />
+    </logger>
+
+    <!-- root -->
+    <root>
+        <level value="info" />
+        <appender-ref ref="LOGASYNC" />
+    </root>
+    
+</log4j:configuration>
